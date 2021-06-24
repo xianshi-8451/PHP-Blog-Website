@@ -10,6 +10,8 @@
                             <th>Tags</th>
                             <th>Comments</th>
                             <th>Date</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +47,7 @@
                         echo "<td>{$post_status}</td>";
                         echo "<td><img src='{$post_image}' alt='image'></td>";
                         echo "<td>{$post_tags}</td>";
-                        echo "<td>{$post_comment}</td>";
+                        echo "<td>{$post_comment_count}</td>";
                         echo "<td>{$post_date}</td>";
                         echo "<td><a href='posts.php?source=edit_post&pid={$post_id}'>Edit</a></td>";
                         echo "<td><a href='posts.php?delete={$post_id}'>Delete</a></td>";
@@ -63,5 +65,7 @@
 
             $query = "DELETE FROM posts WHERE post_id = $the_post_id ";
             $delete_query = mysqli_query($connection, $query);
+
+            header("Location: posts.php");
         }
         ?>
