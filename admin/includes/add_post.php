@@ -44,6 +44,7 @@
     </div>
 
     <div class="form-group">
+    <label for="category">Category</label>
       <select name="post_category" id="post_category">
       <?php 
             $query = "SELECT * FROM categories";
