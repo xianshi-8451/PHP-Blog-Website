@@ -30,7 +30,14 @@ if(isset($_GET['edit_user'])){
             $user_password = $_POST['user_password'];           
             // $post_date  = date('d-m-y');
 
-       
+        $query = "SELECT randSalt from users";
+        $select_randSalt_Query=mysqli_query($connection, $query);
+        if(!$select_randSalt_Query){
+            die("Query Failed" . mysqli_error($connection));
+        }
+        $row = mysqli_fetch_array($select_randSalt_Query);
+        $salt = $row['randSalt'];
+        $hashed_password=crypt($user_password, $salt);
         // move_uploaded_file($post_image_temp, "../images/$post_image" );
        
        
@@ -40,7 +47,7 @@ if(isset($_GET['edit_user'])){
           $query .="user_role   =  '{$user_role}', ";
           $query .="username = '{$username}', ";
           $query .="user_email = '{$user_email}', ";
-          $query .="user_password   = '{$user_password}' ";
+          $query .="user_password   = '{$hashed_password}' ";
           $query .= "WHERE user_id = {$the_user_id} ";
 
           $edit_user_query = mysqli_query($connection, $query);
@@ -62,7 +69,7 @@ if(isset($_GET['edit_user'])){
 
     <div class="form-group">
     <select name="user_role" id="">
-    <option value="subscriber"><?php echo $user_role;?></option>
+    <option value="<?php echo $user_role;?>"><?php echo $user_role;?></option>
     <?php 
     if($user_role == 'admin') {
     echo "<option value='subscriber'>subscriber</option>";
