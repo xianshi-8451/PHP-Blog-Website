@@ -16,7 +16,7 @@
             $post_date  = date('d-m-y');
 
        
-        move_uploaded_file($post_image_temp, "../images/$post_image" );
+        move_uploaded_file($post_image_temp, "images/$post_image" );
        
        
       $query = "INSERT INTO posts(post_category_id, post_title, post_user, post_date, post_image,post_content,post_tags, post_status) ";

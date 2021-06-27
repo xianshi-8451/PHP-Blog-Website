@@ -132,7 +132,7 @@ if(isset($_POST['checkBoxArray'])){
                         }
 
                         echo "<td>{$post_status}</td>";
-                        echo "<td><img width='100' src='../images/<?php echo $post_image;?>' alt='image'></td>";
+                        echo "<td><img width='100' src='../images/<?php echo $post_image; ?>' alt='image'></td>";
                         echo "<td>{$post_tags}</td>";
                         $query = "SELECT* FROM comments WHERE comment_post_id = $post_id";
                         $send_comment_query = mysqli_query($connection, $query);
