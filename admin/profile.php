@@ -15,7 +15,6 @@
                         $user_image = $row['user_image'];
                         $user_role = $row['user_role'];
         }
-    }
 ?>
 
 <?php 
@@ -32,7 +31,23 @@
             $user_email = $_POST['user_email'];
             $user_password = $_POST['user_password'];           
             // $post_date  = date('d-m-y');
-            $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' =>12));
+if(!empty($user_password)) { 
+
+          $query_password = "SELECT user_password FROM users WHERE user_id =  $user_id";
+          $get_user_query = mysqli_query($connection, $query_password);
+          confirm($get_user_query);
+
+          $row = mysqli_fetch_array($get_user_query);
+
+          $db_user_password = $row['user_password'];
+
+
+        if($db_user_password != $user_password) {
+
+            $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost' => 12));
+
+          }
+            
 
        
         // move_uploaded_file($post_image_temp, "../images/$post_image" );
@@ -44,12 +59,14 @@
         //   $query .="user_role   =  '{$user_role}', ";
           $query .="username = '{$username}', ";
           $query .="user_email = '{$user_email}', ";
-          $query .="user_password   = '{$user_password}' ";
-          $query .= "WHERE username = '{$username}' ";
+          $query .="user_password   = '{$hashed_password}' ";
+          $query .= "WHERE user_id = '{$user_id}' ";
 
           $edit_user_query = mysqli_query($connection, $query);
           confirm($edit_user_query);
    }
+}
+    }
 ?>
            
     <div id="wrapper">
@@ -78,19 +95,6 @@
     <input type="text" value="<?php echo $user_lastname; ?>" class="form-control" name="user_lastname">
     </div>
 
-    <!-- <div class="form-group">
-    <select name="user_role" id="">
-    <option value="subscriber"><?php //echo $user_role;?></option>
-    <?php 
-    // if($user_role == 'admin') {
-    // echo "<option value='subscriber'>subscriber</option>";
-    // } else {
-    // echo "<option value='admin'>admin</option>";
-    // }
-    ?>
-    
-    </select>
-    </div> -->
 
     <div class="form-group">
     <label for="post_status">Username</label>
